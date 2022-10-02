@@ -1,0 +1,137 @@
+from Models.Player import Player
+
+
+player1 = Player("Dupont", "Jean", "28/07/1995", "Male", 71, 0)
+player2 = Player("Durant", "Pierre", "28/07/1995", "Male", 72, 0)
+player3 = Player("Laval", "Julie", "28/07/1995", "Male", 80, 0)
+player4 = Player("Alves", "David", "28/07/1995", "Male", 81, 0)
+player5 = Player("Silva", "John", "28/07/1995", "Male", 84, 0)
+player6 = Player("Goncalves", "Guillaume", "28/07/1995", "Male", 86, 0)
+player7 = Player("Dagobert", "Jule", "28/07/1995", "Male", 87, 0)
+player8 = Player("Calvas", "kelvin", "28/07/1995", "Male", 89, 0)
+
+list_players_dur = [player1, player2, player3, player4, player5, player6, player7, player8]
+# controller = Controller()
+
+"""
+def generate_matchs_round_two():
+    list_players_dur = [player1, player2, player3, player4, player5, player6, player7, player8]
+    # J'ordonne du plus grand au plus petit la liste de joueurs basé sur le score 1er tour
+    list_players_second_turn = sorted(list_players_dur, key=lambda Player: Player.score, reverse=True)
+    #print(list_players_second_turn)
+
+    matchs_round_two = []
+
+    for match in range(4):
+        a = 0
+        b = 1
+        match_one_round_two = [(list_players_dur[a].firstname, list_players_dur[a].score), (list_players_dur[b].name, list_players_dur[b].score)]
+        a = a + 1
+        b = b + 1
+        # if match_one_round_two == match_one
+        # b = b + 1
+        matchs_round_two.append(match_one_round_two)
+
+    return matchs_round_two
+
+resultat = generate_matchs_round_two()
+# list = [(player2, player5), (player3, player4), (player1, player6), (player7, player8)]
+print(resultat)
+
+print("list = [(player2, player5), (player3, player4), (player1, player6), (player7, player8)]")
+
+"""
+"""
+def generate_matchs_first_round(list_players_dur):
+
+
+    # J'ordonne du plus grand au plus petit la liste de joueurs avec le rang des joueurs
+
+    list_players_ordonate = sorted(list_players_dur, key=lambda Player:Player.rank, reverse=True)
+    print(list_players_ordonate)
+    # Je crée les matchs sous forme de tuple contenant 2 listes contenant joueurs + leur rang
+    matchs_first_round = []
+    a = 0
+    b = 4
+    for match in range(4):
+        match_one = ([list_players_ordonate[a], list_players_ordonate[a].rank], [list_players_ordonate[b], list_players_ordonate[b].rank])
+        a = a + 1
+        b = b + 1
+    # J'ajoute chaque match à ma liste de matchs
+        matchs_first_round.append(match_one)
+    return matchs_first_round
+
+resultat = generate_matchs_first_round(list_players_dur)
+print(resultat)
+
+
+"""
+def enter_results_round_one(players):
+    # Entrée : liste de joueurs
+
+    list_players_dur = [player1, player2, player3, player4, player5, player6, player7, player8]
+
+    # list ordonnée par rang = [player8, player7, player6, player5, player4, player3, player2, player1]
+
+    list_ordonate = sorted(list_players_dur, key=lambda Player: Player.rank, reverse=True)
+
+    # matchs = player8, player4 et player7, player3 et player6, player2 et player5, player1
+
+    result_for_players_match_one = "1-0"  # inputs_results_matchs[0].split("-")  "1" - "0"
+    result_for_players_match_two = "0-1"  # inputs_results_matchs[1].split("-")  "0" - "1"
+    result_for_players_match_three = "0-0"  # inputs_results_matchs[2].split("-")  "0" - "0"
+    result_for_players_match_four = "1-0"  # inputs_results_matchs[3].split("-")  "1" - "0"
+    splited_match_one = result_for_players_match_one.split("-")
+    splited_match_two = result_for_players_match_two.split("-")
+    splited_match_three = result_for_players_match_three.split("-")
+    splited_match_four = result_for_players_match_four.split("-")
+
+    if splited_match_one[0] == "1" and splited_match_one[1] == "0":
+        player8.points(1)
+        player4.points(0)
+    elif splited_match_one[0] == "0" and splited_match_one[1] == "1":
+        player8.points(0)
+        player4.points(1)
+    else:
+        player8.points(0.5)
+        player4.points(0.5)
+
+    if splited_match_two[0] == "1" and splited_match_two[1] == "0":
+        player7.points(1)
+        player3.points(0)
+    elif splited_match_two[0] == "0" and splited_match_two[1] == "1":
+        player7.points(0)
+        player3.points(1)
+    else:
+        player7.points(0.5)
+        player3.points(0.5)
+
+    if splited_match_three[0] == "1" and splited_match_three[1] == "0":
+        player6.points(1)
+        player2.points(0)
+    elif splited_match_three[0] == "0" and splited_match_three[1] == "1":
+        player6.points(0)
+        player2.points(1)
+    else:
+        player6.points(0.5)
+        player2.points(0.5)
+
+    if splited_match_four[0] == "1" and splited_match_four[1] == "0":
+        player5.points(1)
+        player1.points(0)
+    elif splited_match_four[0] == "0" and splited_match_one[1] == "1":
+        player5.points(0)
+        player1.points(1)
+    else:
+        player5.points(0.5)
+        player1.points(0.5)
+    # resultat = [Kelvin 1 , David 0 , Jule 0 ,  Julie, 1 , Guillaume 0,5 , Pierre 0,5 , John,1 Jean, 0]
+    # Sortie : liste de joueurs avec score actualisé ?
+    score_list = [[player1, player1.score], [player2, player2.score], [player3, player3.score],
+                  [player4, player4.score], [player5, player5.score], [player6, player6.score],
+                  [player7, player7.score], [player8, player8.score]]
+    return score_list
+
+
+test = enter_results_round_one(list_players_dur)
+print(test)
