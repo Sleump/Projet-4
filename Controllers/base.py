@@ -1,4 +1,5 @@
 """Define the main controller."""
+import os
 from typing import List
 from Models.Player import Player
 from Models.Round import Round
@@ -21,7 +22,9 @@ list_players = [player1, player2, player3, player4, player5, player6, player7, p
 class Controller:
     """Main controller"""
     dic = {}
-    tournament_list = []
+    round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8)
+    tournament_list = [round_zero]
+    round_zero.rounds = "ça fonctionne"
 
     def __init__(self):
         self.views_tournament = ViewTournament()
@@ -213,44 +216,55 @@ class Controller:
         print(rounds)
         new_tournament.rounds = rounds
         print(new_tournament.rounds)
-        self.tournament_list.append(new_tournament.name)
+        self.tournament_list.append(new_tournament)
 
-controller = Controller()
+        self.menu()
 
+    def menu(self):
 
-def run(self):
-    choice: str = ""
+        os.system('cls')
 
-    while True:
-        print("1) Créer un tournoi")
-        print("2) Consulter les rapports")
-        print("3) Quitter le programme")
-        choice = input("Ecrivez un choix: ")
+        choice: str = ""
 
-        choice = choice.strip()
-
-    if (choice == "1"):
-        run()
-
-    elif (choice == "2"):
-
-        for tournament in enumerate(tournament_list):
-            print(index, ")", new_tournament.name)
-
+        while True:
+            print("1) Créer un tournoi")
+            print("2) Consulter les rapports")
+            print("3) Quitter le programme")
             choice = input("Ecrivez un choix: ")
+
             choice = choice.strip()
 
-            if (choice == index):
-                print(self.tournament_list[index].name, self.tournament_list[index].rounds)
-                #sort players alphabetically
-                players_tournament_alphabetically = sorted(self.tournament.list_players)
-                #print(players_tournament_alphabetically)
+            if (choice == "1"):
+                self.choice_create_tournament()
+
+            elif (choice == "2"):
+
+                for index, tournament in enumerate(self.tournament_list):
+                    print(index, ")", tournament.name)
+
+                choice = input("Ecrivez un choix: ")
+                choice = choice.strip()
+
+                if (choice == index):
+
+                    print(self.tournament_list[index].name, self.tournament_list[index].rounds)
+                    # sort players alphabetically
+                    players_tournament_alphabetically = sorted(self.tournament.list_players,
+                                                               key=lambda x: x.player.name)
+
+                    # print(players_tournament_alphabetically)
 
 
-    elif (choice == "3"):
-        variable = 1
+                elif (choice == "3"):
+                    break
 
-    return
+        return
+
+    def run(self):
+
+        self.menu()
+
+
 
 
 controller = Controller()

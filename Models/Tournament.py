@@ -10,3 +10,6 @@ class Tournament:
         self.description = description
         self.players = players
         self.number_of_players = 8
+
+
+
