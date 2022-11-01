@@ -22,7 +22,7 @@ list_players = [player1, player2, player3, player4, player5, player6, player7, p
 class Controller:
     """Main controller"""
     dic = {}
-    round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8)
+    round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8, [])
     tournament_list = [round_zero]
     round_zero.rounds = "ça fonctionne"
 
@@ -39,9 +39,10 @@ class Controller:
         number_of_players = self.views_tournament.prompt_for_players()
         description = self.views_tournament.prompt_for_description()
         time_control = self.views_tournament.prompt_for_time_control()
-        Tournament_created = Tournament(name, place, day, number_of_players, description, time_control, rounds)
+        rounds = []
+        tournament_created = Tournament(name, place, day, number_of_players, description, time_control, rounds)
 
-        return Tournament_created
+        return tournament_created
         # (self, name, place, day, turns, timecontrol, description, players)
 
     def add_players(self, number_of_players):
@@ -55,7 +56,7 @@ class Controller:
             player_gender = self.views_player.prompt_for_player_gender()
             player_rank = self.views_player.prompt_for_player_rank()
             player_score = 0
-            player_created = Player(player_name, player_firstname, player_birth, player_gender, player_rank)
+            player_created = Player(player_name, player_firstname, player_birth, player_gender, player_rank, player_score)
             list_players.append(player_created)
 
         return list_players
@@ -79,6 +80,7 @@ class Controller:
             pairs_round_one.append(pair)
             a += 1
             b += 1
+        print(pairs_round_one)
         return pairs_round_one
 
     def create_matchs(self, player_pairs):
@@ -88,10 +90,14 @@ class Controller:
 
         for index, pair in enumerate(player_pairs):
             name_match = f"Match {index}"
-            match = Match(pair[0], pair[1], name_match)
+            match = Match(player1 = pair[0], player2 = pair[1], name = name_match)
+            #                            pair[0], pair[1]
             matchs_first_round.append(match)
-            self.dic[pair[0].name].remove[pair[1].name]
-            self.dic[pair[1].name].remove[pair[0].name]
+            print(matchs_first_round)
+            #pair[0].pop(pair[1])
+            #pair[1].pop(pair[0])
+            #self.dic[pair[0].name].remove[pair[1].name]
+            #self.dic[pair[1].name].remove[pair[0].name]
 
         return matchs_first_round
 
@@ -185,7 +191,7 @@ class Controller:
         new_tournament = self.create_tournament()
         list_of_players = self.add_players(new_tournament.number_of_players)
         list_of_players_basics.append(list_of_players)
-        pairs = self.generate_pairs_one(list_of_players)
+        # A supprimer ? pairs = self.generate_pairs_one(list_of_players)
 
         rounds = []
 
@@ -209,8 +215,8 @@ class Controller:
                 refreshed_matchs_two = self.enter_results_round(matchs_two)
                 print("Les matchs actualisés sont :", refreshed_matchs_two)
                 round_name = f"Round {index}"
-                round_two = Round(matchs_two, round_name)
-                rounds.append(round)
+                round_two = Round( matchs = matchs_two, name = round_name)
+                rounds.append(round_two)
 
             print("+++++++")
         print(rounds)
@@ -249,16 +255,16 @@ class Controller:
 
                     print(self.tournament_list[index].name, self.tournament_list[index].rounds)
                     # sort players alphabetically
-                    players_tournament_alphabetically = sorted(self.tournament.list_players,
-                                                               key=lambda x: x.player.name)
+                    players_tournament_alphabetically = sorted(self.tournament.list_players, key=lambda x: x.player.name)
 
-                    # print(players_tournament_alphabetically)
+
+                        # print(players_tournament_alphabetically)
 
 
                 elif (choice == "3"):
                     break
 
-        return
+
 
     def run(self):
 
