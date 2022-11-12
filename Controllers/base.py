@@ -25,6 +25,7 @@ class Controller:
     round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8, [])
     tournament_list = [round_zero]
     round_zero.rounds = "ça fonctionne"
+    players_of_all_time = []
 
 
     def __init__(self):
@@ -90,6 +91,7 @@ class Controller:
             #                        pair[0], pair[1]
             matchs_first_round.append(match)
             print(matchs_first_round)
+
 
 
         return matchs_first_round
@@ -173,12 +175,13 @@ class Controller:
         for index in range(4):
             print(len(self.rounds))
             if index == 0:
+                index_veridique = index + 1
                 pairs = self.generate_pairs_one(list_of_players)
                 matchs = self.create_matchs(pairs)
                 print("Les matchs sont :", matchs)
                 refreshed_matchs = self.enter_results_round(matchs)
                 print("Les matchs actualisés sont :", refreshed_matchs)
-                round_name = f"Round {index}" # {matchs} ?
+                round_name = f"Round {index_veridique}" # {matchs} ?
                 round = Round(matchs, round_name)
                 self.rounds.append(round)
 
@@ -193,12 +196,12 @@ class Controller:
                 round_two = Round( matchs = matchs_two, name = round_name)
                 self.rounds.append(round_two)
 
-            print("+++++++")
+            print("Passage à un autre round")
         print(self.rounds)
         new_tournament.rounds = self.rounds
         print(new_tournament.rounds)
         self.tournament_list.append(new_tournament)
-
+        self.players_of_all_time.append(list_of_players_basics)
         self.menu()
 
     def menu(self):

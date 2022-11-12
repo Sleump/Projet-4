@@ -10,4 +10,4 @@ class Round:
         #self.end_time = end_time
 
     def __repr__(self):
-        return self.name
+        return str(self.matches)
