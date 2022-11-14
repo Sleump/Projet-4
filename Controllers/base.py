@@ -68,15 +68,17 @@ class Controller:
         # Entrée: Liste de joueurs
         pairs_round_one = []
         list_players_rank = sorted(list_players_dur, key=lambda Player: Player.rank, reverse=True)
+        print("Liste player rank = ", list_players_rank)
         a = 0
         b = 4
-        for player in range(4):
+        for i in list_players_rank:
             pair = [list_players_rank[a], list_players_rank[b]]
             pairs_round_one.append(pair)
             self.pairs_of_tournament.append(pair)
             a += 1
             b += 1
-            print(pairs_round_one)
+            print("les pairs de joueurs sont", pairs_round_one)
+
 
             return pairs_round_one
 
@@ -84,6 +86,7 @@ class Controller:
 
         # Je crée les matchs sous forme de tuple contenant 2 listes contenant joueurs + leur rang
         matchs_first_round = []
+
 
         for index, pair in enumerate(player_pairs):
             name_match = f"Match {index}"
@@ -235,7 +238,8 @@ class Controller:
 
                     print(self.tournament_list[index].name, self.tournament_list[index].rounds)
                     # sort players alphabetically
-                    #players_tournament_alphabetically = sorted(self.tournament.list_players, key=lambda x: x.player.name)
+                    players_tournament_alphabetically = sorted(self.tournament_list[index].list_players, key=lambda x: x.player.name)
+                    print("Les joueurs du tournoi sont :", players_tournament_alphabetically)
 
 
                         # print(players_tournament_alphabetically)
