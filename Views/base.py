@@ -96,8 +96,9 @@ class ViewMatch:
         """Prompt for a winner name."""                      #([player1, score], [player2, score])
         new_list = []
         for player in list_players:
-            result_match_player_one = input("Tapez le score soit 0 , 1 ou 0.5: " ) # 1-0
-            new_list.append([player[0], result_match_player_one])
+            result_match_player_one = input("Tapez le score du  joueur  soit 0 , 1 ou 0.5: " ) # 1-0
+            player[0].points = result_match_player_one
+            new_list.append([player[0], player[0].score])
         return new_list
 
 

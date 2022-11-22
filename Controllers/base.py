@@ -7,16 +7,9 @@ from Models.Tournament import Tournament
 from Views.base import ViewTournament, ViewPlayer, ViewMatch
 from Models.match import Match
 
-player1 = Player("Dupont", "Jean", "28/07/1995", "Male", "71")
-player2 = Player("Durant", "Pierre", "28/07/1995", "Male", "72")
-player3 = Player("Laval", "Julie", "28/07/1995", "Male", "80")
-player4 = Player("alves", "David", "28/07/1995", "Male", "81")
-player5 = Player("c", "sept", "28/07/1995", "Male", "84")
-player6 = Player("y", "huit", "28/07/1995", "Male", "86")
-player7 = Player("b", "jule", "28/07/1995", "Male", "87")
-player8 = Player("m", "kelvin", "28/07/1995", "Male", "89")
 
-list_players = [player1, player2, player3, player4, player5, player6, player7, player8]
+
+
 
 
 class Controller:
@@ -64,23 +57,27 @@ class Controller:
 
         return list_players
 
-    def generate_pairs_one(self, list_players_dur):
+    def generate_pairs_one(self, list_of_players):
         # Entrée: Liste de joueurs
+        print(list_of_players)
         pairs_round_one = []
-        list_players_rank = sorted(list_players_dur, key=lambda Player: Player.rank, reverse=True)
+
+        list_players_rank = sorted(list_of_players, key=lambda Player: Player.rank, reverse=True)
+        firsts_elements = list_players_rank[0:4]
+        second_elements = list_players_rank[4:]
         print("Liste player rank = ", list_players_rank)
-        a = 0
-        b = 4
-        for i in list_players_rank:
-            pair = [list_players_rank[a], list_players_rank[b]]
+
+        for i in range(4):
+
+            pair = (firsts_elements[i], second_elements[i])
             pairs_round_one.append(pair)
             self.pairs_of_tournament.append(pair)
-            a += 1
-            b += 1
-            print("les pairs de joueurs sont", pairs_round_one)
 
 
-            return pairs_round_one
+        print("les pairs de joueurs sont", pairs_round_one)
+
+
+        return pairs_round_one
 
     def create_matchs(self, player_pairs):
 
@@ -112,11 +109,11 @@ class Controller:
 
         return matchs
 
-    def generate_pairs_two(self, list_players_dur):
+    def generate_pairs_two(self, list_of_players):
         # Entrée liste de joueurs
         pairs_round_two = []
-        list_players_second_turn = sorted(list_players_dur, key=lambda Player: Player.score, reverse=True)
-
+        list_players_second_turn = sorted(list_of_players, key=lambda Player: Player.score, reverse=True)
+        print(list_players_second_turn)
         a = 0
         b = 1
         for player in range(4):
@@ -140,25 +137,7 @@ class Controller:
 
         return pairs_round_two
 
-    def generate_matchs_round_two(self, pairs_of_players: list) -> List[Match]:
 
-        list_players_dur = [player1, player2, player3, player4, player5, player6, player7, player8]
-        # J'ordonne du plus grand au plus petit la liste de joueurs basé sur le score 1er tour
-        list_players_second_turn = sorted(list_players_dur, key=lambda x: x.player_score, reverse=True)
-
-        matchs_round_two = []
-        for match in range(4):
-            a = 0
-            b = 1
-            match_one_round_two = [(list_players_dur[a], list_players_dur[a].score),
-                                   (list_players_dur[b], list_players_dur[b].score)]
-            a = a + 1
-            b = b + 1
-            # if match_one_round_two == "match du 1er tour":# soit match_one
-            # b = b + 1
-        matchs_round_two.append(match_one_round_two)
-
-        return matchs_round_two
 
     def choice_create_tournament(self):
 
@@ -172,21 +151,26 @@ class Controller:
         list_of_players = self.add_players(new_tournament.number_of_players)
         list_of_players_basics.append(list_of_players)
         # A supprimer ? pairs = self.generate_pairs_one(list_of_players)
-
+        print("list_of_players", list_of_players)
+        print("list_of_players_basics", list_of_players_basics)
+        print("new_tournament.number of players :", new_tournament.number_of_players)
         self.rounds = []
 
         for index in range(4):
+
             print(len(self.rounds))
+
             if index == 0:
                 index_veridique = index + 1
                 pairs = self.generate_pairs_one(list_of_players)
                 matchs = self.create_matchs(pairs)
                 print("Les matchs sont :", matchs)
+
                 refreshed_matchs = self.enter_results_round(matchs)
                 print("Les matchs actualisés sont :", refreshed_matchs)
                 round_name = f"Round {index_veridique}" # {matchs} ?
-                round = Round(matchs, round_name)
-                self.rounds.append(round)
+                round_one = Round(matchs, round_name)
+                self.rounds.append(round_one)
 
 
             else:
@@ -203,6 +187,7 @@ class Controller:
         print(self.rounds)
         new_tournament.rounds = self.rounds
         print(new_tournament.rounds)
+        print(list_of_players_basics[0].__dict__)
         self.tournament_list.append(new_tournament)
         self.players_of_all_time.append(list_of_players_basics)
         self.menu()

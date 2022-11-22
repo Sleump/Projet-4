@@ -7,6 +7,7 @@ class Player:
         self.rank = rank      #player_rank
         self.score = 0    #player_score
         self.username = self.firstname +' '+ self.name
+        self.points = None
 
     def points(self, points):
         self.score += points
