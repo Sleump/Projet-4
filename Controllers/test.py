@@ -52,7 +52,7 @@ question = input("Tapez le score du joueur :")
 player.points(int(question))
 print(player.score)
 
-"""
+
 
 db = TinyDB('db.json')
 
@@ -72,3 +72,17 @@ db.purge("2")
 #search()
 print(db.all())
 
+"""
+
+def multiply():
+    return 5 * 5
+
+resultat = multiply()
+
+print(" Le résultat est", resultat)
+
+def multiply2(n):
+    return n * 5
+
+
+print(" Le résultat est", multiply2(6))

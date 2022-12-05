@@ -9,8 +9,8 @@ class Player:
         self.username = self.firstname +' '+ self.name
         self.points = None
 
-    def points(self, points):
-        self.score += points
+    def update_score(self, points):
+        self.score = self.score + points
 
     def __repr__(self):
         return f"{self.firstname}"

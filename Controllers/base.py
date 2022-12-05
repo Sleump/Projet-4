@@ -19,13 +19,14 @@ class Controller:
     tournament_list = [round_zero]
     round_zero.rounds = "ça fonctionne"
     players_of_all_time = []
-
+    list_of_rounds = []
+    list_of_players = []
 
     def __init__(self):
         self.views_tournament = ViewTournament()
         self.views_player = ViewPlayer()
         self.views_match = ViewMatch()
-        self.rounds = None
+
 
     def create_tournament(self):
 
@@ -35,15 +36,14 @@ class Controller:
         number_of_players = self.views_tournament.prompt_for_players()
         description = self.views_tournament.prompt_for_description()
         time_control = self.views_tournament.prompt_for_time_control()
-        rounds = self.rounds
-        tournament_created = Tournament(name, place, day, number_of_players, description, time_control, rounds)
+        list_of_rounds = self.list_of_rounds
+        tournament_created = Tournament(name, place, day, number_of_players, description, time_control, list_of_rounds)
 
         return tournament_created
-        # (self, name, place, day, turns, timecontrol, description, players)
+
 
     def add_players(self, number_of_players):
 
-        list_players = []
 
         for _ in range(number_of_players):
             player_name = self.views_player.prompt_for_player_name()
@@ -53,29 +53,25 @@ class Controller:
             player_rank = self.views_player.prompt_for_player_rank()
             player_score = 0
             player_created = Player(player_name, player_firstname, player_birth, player_gender, player_rank, player_score)
-            list_players.append(player_created)
+            self.list_of_players.append(player_created)
 
-        return list_players
+        return self.list_of_players
 
-    def generate_pairs_one(self, list_of_players):
+    def generate_pairs_one(self):
         # Entrée: Liste de joueurs
-        print(list_of_players)
+
         pairs_round_one = []
 
-        list_players_rank = sorted(list_of_players, key=lambda Player: Player.rank, reverse=True)
+        list_players_rank = sorted(self.list_of_players, key=lambda Player: Player.rank, reverse=True)
         firsts_elements = list_players_rank[0:4]
         second_elements = list_players_rank[4:]
-        print("Liste player rank = ", list_players_rank)
+
 
         for i in range(4):
 
             pair = (firsts_elements[i], second_elements[i])
             pairs_round_one.append(pair)
             self.pairs_of_tournament.append(pair)
-
-
-        print("les pairs de joueurs sont", pairs_round_one)
-
 
         return pairs_round_one
 
@@ -90,7 +86,7 @@ class Controller:
             match = Match(player1 = pair[0], player2 = pair[1], name = name_match)
             #                        pair[0], pair[1]
             matchs_first_round.append(match)
-            print(matchs_first_round)
+
 
 
 
@@ -105,7 +101,7 @@ class Controller:
             view_match = ViewMatch()
             result_match = view_match.prompt_for_player_result(match.list_players)
             match.list_players = result_match
-            print(match.list_players)
+            print("matchs.list_players =", match.list_players)
 
         return matchs
 
@@ -141,28 +137,27 @@ class Controller:
 
     def choice_create_tournament(self):
 
-        list_of_players = []
-        list_of_players_basics = []
+
+
         # Afficher menu principal avec 2 options : créer un tournoi et afficher les rapports
         # L'utilisateur choisit une option
         # Option 1 " Créer un tournoi " : Renseigner les informations du tournoi via input
 
         new_tournament = self.create_tournament()
-        list_of_players = self.add_players(new_tournament.number_of_players)
-        list_of_players_basics.append(list_of_players)
+        self.list_of_players = self.add_players(new_tournament.number_of_players)
         # A supprimer ? pairs = self.generate_pairs_one(list_of_players)
-        print("list_of_players", list_of_players)
-        print("list_of_players_basics", list_of_players_basics)
+        print("list_of_players", self.list_of_players)
         print("new_tournament.number of players :", new_tournament.number_of_players)
-        self.rounds = []
+        print("new_tournament.players:", new_tournament.players)
+
 
         for index in range(4):
 
-            print(len(self.rounds))
+            print("taille des rounds", len(self.list_of_rounds))
 
             if index == 0:
                 index_veridique = index + 1
-                pairs = self.generate_pairs_one(list_of_players)
+                pairs = self.generate_pairs_one()
                 matchs = self.create_matchs(pairs)
                 print("Les matchs sont :", matchs)
 
@@ -170,26 +165,28 @@ class Controller:
                 print("Les matchs actualisés sont :", refreshed_matchs)
                 round_name = f"Round {index_veridique}" # {matchs} ?
                 round_one = Round(matchs, round_name)
-                self.rounds.append(round_one)
+                print(" round_one", round_one)
+                self.list_of_rounds.append(round_one)
 
 
             else:
-                pairs_two = self.generate_pairs_two(list_of_players)
+                pairs_two = self.generate_pairs_two(self.list_of_players)
                 matchs_two = self.create_matchs(pairs_two)
                 print("Les matchs du " + round_name + " sont :", matchs_two)
                 refreshed_matchs_two = self.enter_results_round(matchs_two)
                 print("Les matchs actualisés sont :", refreshed_matchs_two)
                 round_name = f"Round {index}"
                 round_two = Round( matchs = matchs_two, name = round_name)
-                self.rounds.append(round_two)
+                print("round_two", round_two)
+                self.list_of_rounds.append(round_two)
+                print("list_of_round", new_tournament.list_of_rounds)
 
             print("Passage à un autre round")
-        print(self.rounds)
-        new_tournament.rounds = self.rounds
-        print(new_tournament.rounds)
-        print(list_of_players_basics[0].__dict__)
+        print("list_of_rounds:", self.list_of_rounds)
+        print("new_tournament.list_of_rounds:", new_tournament.list_of_rounds)
+
         self.tournament_list.append(new_tournament)
-        self.players_of_all_time.append(list_of_players_basics)
+        self.players_of_all_time.append(self.list_of_players)
         self.menu()
 
     def menu(self):
@@ -223,7 +220,7 @@ class Controller:
 
                     print(self.tournament_list[index].name, self.tournament_list[index].rounds)
                     # sort players alphabetically
-                    players_tournament_alphabetically = sorted(self.tournament_list[index].list_players, key=lambda x: x.player.name)
+                    players_tournament_alphabetically = sorted(self.tournament_list[index].list_of_players, key=lambda x: x.player.name)
                     print("Les joueurs du tournoi sont :", players_tournament_alphabetically)
 
 
