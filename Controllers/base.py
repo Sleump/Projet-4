@@ -1,4 +1,6 @@
 """Define the main controller."""
+
+from tinydb import TinyDB, Query
 import os
 from typing import List
 from Models.Player import Player
@@ -13,6 +15,9 @@ from Models.match import Match
 
 
 class Controller:
+
+    db = TinyDB('rapport.json')
+
     """Main controller"""
     pairs_of_tournament = []
     round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8, [])
@@ -156,18 +161,18 @@ class Controller:
             print("taille des rounds", len(self.list_of_rounds))
 
             if index == 0:
-                index_veridique = index + 1
+                round_count = 1
                 pairs = self.generate_pairs_one()
                 matchs = self.create_matchs(pairs)
                 print("Les matchs sont :", matchs)
 
                 refreshed_matchs = self.enter_results_round(matchs)
                 print("Les matchs actualisés sont :", refreshed_matchs)
-                round_name = f"Round {index_veridique}" # {matchs} ?
+                round_name = f"Round {round_count}" # {matchs} ?
                 round_one = Round(matchs, round_name)
                 print(" round_one", round_one)
                 self.list_of_rounds.append(round_one)
-
+                round_count += 1
 
             else:
                 pairs_two = self.generate_pairs_two(self.list_of_players)
@@ -180,7 +185,7 @@ class Controller:
                 print("round_two", round_two)
                 self.list_of_rounds.append(round_two)
                 print("list_of_round", new_tournament.list_of_rounds)
-
+                round_count += 1
             print("Passage à un autre round")
         print("list_of_rounds:", self.list_of_rounds)
         print("new_tournament.list_of_rounds:", new_tournament.list_of_rounds)

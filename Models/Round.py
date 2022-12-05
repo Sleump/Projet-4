@@ -4,10 +4,10 @@ from datetime import datetime
 
 class Round:
     def __init__(self, matchs, name):
-        self.matchs = matchs    # liste => matchs_firt_round , matchs_second_round
+        self.matchs = matchs    # liste => matchs_first_round , matchs_second_round
         self.name = name
         #self.begin_time = begin_time
         #self.end_time = end_time
 
-    #def __repr__(self):
-        #return str(self.matches)
+    def __repr__(self):
+        return str(self.matchs)
