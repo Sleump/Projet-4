@@ -1,5 +1,5 @@
 """Define the main controller."""
-
+from datetime import datetime
 from tinydb import TinyDB, Query
 import os
 from typing import List
@@ -17,15 +17,16 @@ from Models.match import Match
 class Controller:
 
     db = TinyDB('rapport.json')
-
+    User = Query()
     """Main controller"""
     pairs_of_tournament = []
-    round_zero = Tournament("zero", "paris", "2/09/21", "30", "great", 8, [])
+    round_zero = Tournament("zero", "paris", "2/09/ 21", "30", "great", 8, [])
     tournament_list = [round_zero]
     round_zero.rounds = "ça fonctionne"
     players_of_all_time = []
     list_of_rounds = []
     list_of_players = []
+
 
     def __init__(self):
         self.views_tournament = ViewTournament()
@@ -138,8 +139,12 @@ class Controller:
 
         return pairs_round_two
 
+    #def insert(self, new_tournament):
 
+        #db.insert({'nom du tournoi': new_tournament.name, 'place': new_tournament.place, 'day': new_tournament.day, 'joueurs': new_tournament.players, 'round': new_tournament.list_of_rounds})
 
+    # def search():
+    # results = db.search(User.city == 'New York')
     def choice_create_tournament(self):
 
 
@@ -164,12 +169,14 @@ class Controller:
                 round_count = 1
                 pairs = self.generate_pairs_one()
                 matchs = self.create_matchs(pairs)
-                print("Les matchs sont :", matchs)
-
+                begin_time = datetime.now()
+                print("Les matchs sont :", matchs, "début du round à:", begin_time)
                 refreshed_matchs = self.enter_results_round(matchs)
                 print("Les matchs actualisés sont :", refreshed_matchs)
                 round_name = f"Round {round_count}" # {matchs} ?
-                round_one = Round(matchs, round_name)
+                end_time = datetime.now()
+                print("Fin du round", end_time)
+                round_one = Round(matchs, round_name, begin_time, end_time)
                 print(" round_one", round_one)
                 self.list_of_rounds.append(round_one)
                 round_count += 1
@@ -180,7 +187,7 @@ class Controller:
                 print("Les matchs du " + round_name + " sont :", matchs_two)
                 refreshed_matchs_two = self.enter_results_round(matchs_two)
                 print("Les matchs actualisés sont :", refreshed_matchs_two)
-                round_name = f"Round {index}"
+                round_name = f"Round {round_count}"
                 round_two = Round( matchs = matchs_two, name = round_name)
                 print("round_two", round_two)
                 self.list_of_rounds.append(round_two)
@@ -189,6 +196,7 @@ class Controller:
             print("Passage à un autre round")
         print("list_of_rounds:", self.list_of_rounds)
         print("new_tournament.list_of_rounds:", new_tournament.list_of_rounds)
+
 
         self.tournament_list.append(new_tournament)
         self.players_of_all_time.append(self.list_of_players)
@@ -218,16 +226,20 @@ class Controller:
 
                 choice = input("Choisissez le tournoi à afficher: ")
 
-                print("TEST", type(index))
-                print("TEST", type(choice))
+
 
                 if choice == str(index):
 
                     print(self.tournament_list[index].name, self.tournament_list[index].rounds)
-                    # sort players alphabetically
-                    players_tournament_alphabetically = sorted(self.tournament_list[index].list_of_players, key=lambda x: x.player.name)
-                    print("Les joueurs du tournoi sont :", players_tournament_alphabetically)
 
+                    # sort players alphabetically:
+                    players_tournament_alphabetically = sorted(self.tournament_list[index].list_of_players, key=lambda x: x.player.name)
+                    print("Les joueurs du tournoi classé par ordre alphabétique sont :", players_tournament_alphabetically)
+
+                    # sort players by score:
+                    player_tournament_score = sorted(self.tournament_list[index].list_of_players, key=lambda x: x.player.score)
+                    print("Les joueurs du tournoi classé par ordre alphabétique sont :",
+                          player_tournament_score)
 
                         # print(players_tournament_alphabetically)
 
