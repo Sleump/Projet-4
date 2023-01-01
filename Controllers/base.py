@@ -1,8 +1,7 @@
 """Define the main controller."""
 from datetime import datetime
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 import os
-from typing import List
 from Models.Player import Player
 from Models.Round import Round
 from Models.Tournament import Tournament
@@ -17,12 +16,12 @@ from Models.match import Match
 class Controller:
 
     db = TinyDB('rapport.json')
-    User = Query()
+
     """Main controller"""
     pairs_of_tournament = []
-    round_zero = Tournament("zero", "paris", "2/09/ 21", "30", "great", 8, [])
-    tournament_list = [round_zero]
-    round_zero.rounds = "ça fonctionne"
+
+    tournament_list = []
+
     players_of_all_time = []
     list_of_rounds = []
     list_of_players = []
@@ -39,26 +38,29 @@ class Controller:
         name = self.views_tournament.prompt_for_tournament_name()
         place = self.views_tournament.prompt_for_place()
         day = self.views_tournament.prompt_for_day()
-        number_of_players = self.views_tournament.prompt_for_players()
+        number_of_players = 8
+        players = self.list_of_players
+        #number_of_players = self.views_tournament.prompt_for_players()
         description = self.views_tournament.prompt_for_description()
         time_control = self.views_tournament.prompt_for_time_control()
         list_of_rounds = self.list_of_rounds
-        tournament_created = Tournament(name, place, day, number_of_players, description, time_control, list_of_rounds)
+
+        tournament_created = Tournament(name, place, day, number_of_players, players, description, time_control, list_of_rounds)
 
         return tournament_created
 
 
-    def add_players(self, number_of_players):
+    def add_players(self):
 
 
-        for _ in range(number_of_players):
+        for _ in range(8):
             player_name = self.views_player.prompt_for_player_name()
             player_firstname = self.views_player.prompt_for_player_firstname()
             player_birth = self.views_player.prompt_for_player_birth()
             player_gender = self.views_player.prompt_for_player_gender()
             player_rank = self.views_player.prompt_for_player_rank()
             player_score = 0
-            player_created = Player(player_name, player_firstname, player_birth, player_gender, player_rank, player_score)
+            player_created = Player(player_name, player_firstname, player_birth, player_gender, player_rank)
             self.list_of_players.append(player_created)
 
         return self.list_of_players
@@ -92,9 +94,6 @@ class Controller:
             match = Match(player1 = pair[0], player2 = pair[1], name = name_match)
             #                        pair[0], pair[1]
             matchs_first_round.append(match)
-
-
-
 
         return matchs_first_round
 
@@ -139,12 +138,29 @@ class Controller:
 
         return pairs_round_two
 
-    #def insert(self, new_tournament):
+    def insertion(self):
 
-        #db.insert({'nom du tournoi': new_tournament.name, 'place': new_tournament.place, 'day': new_tournament.day, 'joueurs': new_tournament.players, 'round': new_tournament.list_of_rounds})
+        db = TinyDB('rapport.json')
 
-    # def search():
-    # results = db.search(User.city == 'New York')
+        players_serialized = []
+        rounds_serialized = []
+
+        for player in self.list_of_players:
+
+            player_to_save = {
+                "name" : player.username,
+                "birth" : player.birth,
+                "gender" : player.gender,
+                "rank" : player.rank,
+                "score" : player.score,
+
+            }
+            db.insert(player_to_save)
+
+
+
+
+
     def choice_create_tournament(self):
 
 
@@ -154,11 +170,12 @@ class Controller:
         # Option 1 " Créer un tournoi " : Renseigner les informations du tournoi via input
 
         new_tournament = self.create_tournament()
-        self.list_of_players = self.add_players(new_tournament.number_of_players)
+        self.list_of_players = self.add_players()
+        new_tournament.players = self.list_of_players
+
+        #self.list_of_players = self.add_players(new_tournament.number_of_players)
         # A supprimer ? pairs = self.generate_pairs_one(list_of_players)
-        print("list_of_players", self.list_of_players)
-        print("new_tournament.number of players :", new_tournament.number_of_players)
-        print("new_tournament.players:", new_tournament.players)
+
 
 
         for index in range(4):
@@ -184,25 +201,33 @@ class Controller:
             else:
                 pairs_two = self.generate_pairs_two(self.list_of_players)
                 matchs_two = self.create_matchs(pairs_two)
-                print("Les matchs du " + round_name + " sont :", matchs_two)
+                begin_time = datetime.now()
+                print("Les matchs du " + round_name + " sont :", matchs_two, "début du round à:", begin_time)
                 refreshed_matchs_two = self.enter_results_round(matchs_two)
                 print("Les matchs actualisés sont :", refreshed_matchs_two)
                 round_name = f"Round {round_count}"
-                round_two = Round( matchs = matchs_two, name = round_name)
+                end_time = datetime.now()
+                print("Fin du round", end_time)
+                round_two = Round( matchs = matchs_two, name = round_name, begin_time = begin_time, end_time = end_time)
                 print("round_two", round_two)
                 self.list_of_rounds.append(round_two)
                 print("list_of_round", new_tournament.list_of_rounds)
                 round_count += 1
+
             print("Passage à un autre round")
-        print("list_of_rounds:", self.list_of_rounds)
-        print("new_tournament.list_of_rounds:", new_tournament.list_of_rounds)
+
 
 
         self.tournament_list.append(new_tournament)
         self.players_of_all_time.append(self.list_of_players)
+        self.insertion()
         self.menu()
 
+
     def menu(self):
+
+        print("Bienvenue sur votre logiciel de gestion de tournois d'échec")
+        print("Choisissez une option:")
 
         os.system('cls')
 
@@ -212,6 +237,7 @@ class Controller:
             print("1) Créer un tournoi")
             print("2) Consulter les rapports")
             print("3) Quitter le programme")
+            print("4 Modifier le rang d'un joueur")
             choice = input("Ecrivez un choix: ")
 
             choice = choice.strip()
@@ -237,7 +263,7 @@ class Controller:
                     print("Les joueurs du tournoi classé par ordre alphabétique sont :", players_tournament_alphabetically)
 
                     # sort players by score:
-                    player_tournament_score = sorted(self.tournament_list[index].list_of_players, key=lambda x: x.player.score)
+                    player_tournament_score = sorted(self.tournament_list[index].players, key=lambda x: x.player.score)
                     print("Les joueurs du tournoi classé par ordre alphabétique sont :",
                           player_tournament_score)
 
@@ -245,8 +271,17 @@ class Controller:
 
 
                 elif (choice == "3"):
-                    break
 
+                    break
+                """
+                elif (choice == "4"):
+                    
+                    print("Taper le nom du joueurs dont vous souhaitez modifier le rang")
+                    player_selected_rank = input("")
+                    new_rank = input("Tapez le nouveau rang:")
+                    player_selectezd_rank.rank = new_rank
+                
+                """
 
 
     def run(self):
