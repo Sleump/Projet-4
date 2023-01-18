@@ -46,9 +46,7 @@ class ViewTournament:
             return None
         return time_control
 
-    def prompt_for_turns(self,):
-        """ faire une fonction pour tournoi pour + de visibilité et non plusieurs prompt => Promp to create a tournament"""
-        pass
+
 
 class ViewPlayer:
     """Player view."""

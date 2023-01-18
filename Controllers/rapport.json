@@ -1,1 +1,30 @@
-{"_default": {"1": {"name": "David ALVES", "birth": "2807", "gender": "H", "rank": "70", "score": 1.0}, "2": {"name": "Laure ALVES", "birth": "2012", "gender": "F", "rank": "71", "score": 0.0}, "3": {"name": "Cesar ALVES", "birth": "1111", "gender": "H", "rank": "72", "score": 3.0}, "4": {"name": "Sylvie ALVES", "birth": "1502", "gender": "F", "rank": "73", "score": 0.0}, "5": {"name": "Veronique NEVES", "birth": "1206", "gender": "F", "rank": "74", "score": 4.0}, "6": {"name": "Luis NEVES", "birth": "1809", "gender": "H", "rank": "75", "score": 6.0}, "7": {"name": "Patricia NEVES", "birth": "0207", "gender": "F", "rank": "76", "score": 0.0}, "8": {"name": "Andrea NEVES", "birth": "1204", "gender": "F", "rank": "77", "score": 2.0}}}
+{
+  "_default": {
+    "1": {
+      "Tournoi 1": {
+        "name": "Open",
+        "place": "Paris",
+        "day": "1601",
+        "timecontrol": "90",
+        "description": "Tournoi d'ouverture",
+        "players": [
+          "{'name': 'David ALVES', 'birth': '2807', 'gender': 'H', 'rank': '70', 'score': 6.0}",
+          "{'name': 'Laure ALVES', 'birth': '2012', 'gender': 'F', 'rank': '71', 'score': 0.0}",
+          "{'name': 'Sylvie ALVES', 'birth': '1502', 'gender': 'F', 'rank': '72', 'score': 3.0}",
+          "{'name': 'Cesar ALVES', 'birth': '1111', 'gender': 'H', 'rank': '73', 'score': 0.0}",
+          "{'name': 'Luis NEVES', 'birth': '1307', 'gender': 'H', 'rank': '74', 'score': 0.0}",
+          "{'name': 'Veronique NEVES', 'birth': '2304', 'gender': 'F', 'rank': '75', 'score': 4.0}",
+          "{'name': 'Patricia NEVES', 'birth': '0207', 'gender': 'F', 'rank': '76', 'score': 0.0}",
+          "{'name': 'Andrea NEVES', 'birth': '1106', 'gender': 'F', 'rank': '77', 'score': 3.0}"
+        ],
+        "number_of_players": 8,
+        "list_of_rounds": [
+          "{'matchs': [[[Andrea NEVES, 1.0], [Cesar ALVES, 0.0]], [[Patricia NEVES, 0.0], [Sylvie ALVES, 1.0]], [[Veronique NEVES, 1.0], [Laure ALVES, 0.0]], [[Luis NEVES, 0.0], [David ALVES, 1.0]]], 'name': 'Round 1', 'begin_time': datetime.datetime(2023, 1, 16, 19, 31, 3, 925004), 'end_time': datetime.datetime(2023, 1, 16, 19, 31, 10, 526968)}",
+          "{'matchs': [[[David ALVES, 2.0], [Sylvie ALVES, 1.0]], [[Sylvie ALVES, 1.0], [Veronique NEVES, 2.0]], [[Veronique NEVES, 2.0], [Andrea NEVES, 2.0]], [[Andrea NEVES, 3.0], [Laure ALVES, 0.0]]], 'name': 'Round 2', 'begin_time': datetime.datetime(2023, 1, 16, 19, 31, 10, 527468), 'end_time': datetime.datetime(2023, 1, 16, 19, 31, 15, 841979)}",
+          "{'matchs': [[[Andrea NEVES, 3.0], [David ALVES, 3.0]], [[David ALVES, 3.0], [Veronique NEVES, 3.0]], [[Veronique NEVES, 3.0], [Sylvie ALVES, 2.0]], [[Sylvie ALVES, 3.0], [Laure ALVES, 0.0]]], 'name': 'Round 2', 'begin_time': datetime.datetime(2023, 1, 16, 19, 31, 15, 841979), 'end_time': datetime.datetime(2023, 1, 16, 19, 31, 22, 153243)}",
+          "{'matchs': [[[David ALVES, 4.0], [Veronique NEVES, 3.0]], [[David ALVES, 5.0], [Veronique NEVES, 3.0]], [[David ALVES, 5.0], [Veronique NEVES, 4.0]], [[David ALVES, 6.0], [Veronique NEVES, 4.0]]], 'name': 'Round 2', 'begin_time': datetime.datetime(2023, 1, 16, 19, 31, 22, 153243), 'end_time': datetime.datetime(2023, 1, 16, 19, 31, 31, 360423)}"
+        ]
+      }
+    }
+  }
+}
