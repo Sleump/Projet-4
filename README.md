@@ -14,7 +14,7 @@ Step 2 : Base.py and choose between few options : "Créer un tournoi"
 Step 3 : Follow the steps
 Step 4 : Enjoy what the script does to you
 
-Technologies : It use Python(3.9.10) and some packages(TinyDB , OS,)
+Technologies : It use Python(3.9.10) and some packages(TinyDB , OS,Json)
 
 Improvements: 1- Get a graphic interface 
               2-
